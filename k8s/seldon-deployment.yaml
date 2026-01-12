@@ -1,0 +1,39 @@
+apiVersion: machinelearning.seldon.io/v1
+kind: SeldonDeployment
+metadata:
+  name: sentiment-classifier
+  namespace: seldon
+spec:
+  name: sentiment-model
+  predictors:
+  - name: default
+    replicas: 1
+    componentSpecs:
+    - spec:
+        containers:
+        - name: classifier
+          image: sentiment-classifier:latest
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: MODEL_PATH
+            value: /mnt/models/sentiment_model.pkl
+          volumeMounts:
+          - name: model-storage
+            mountPath: /mnt/models
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+        volumes:
+        - name: model-storage
+          hostPath:
+            path: /models
+            type: DirectoryOrCreate
+    graph:
+      name: classifier
+      type: MODEL
+      endpoint:
+        type: REST

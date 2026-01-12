@@ -1,0 +1,36 @@
+FROM python:3.12.3-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
+COPY pyproject.toml ./
+
+# Install Python dependencies
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir \
+    fastapi \
+    uvicorn[standard] \
+    python-dotenv \
+    httpx \
+    jinja2 \
+    python-multipart
+
+# Copy application code
+COPY src/ ./src/
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV FASTAPI_HOST=0.0.0.0
+ENV FASTAPI_PORT=8000
+
+# Expose port
+EXPOSE 8000
+
+# Run the application
+CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "8000"]

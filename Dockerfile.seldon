@@ -1,0 +1,32 @@
+FROM python:3.12.3-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
+COPY pyproject.toml ./
+
+# Install Python dependencies
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir scikit-learn joblib numpy pandas python-dotenv
+
+# Copy model code
+COPY src/seldon_model.py ./
+
+# Create model directory
+RUN mkdir -p /mnt/models
+
+# Set environment variables
+ENV MODEL_PATH=/mnt/models/sentiment_model.pkl
+ENV PYTHONUNBUFFERED=1
+
+# Expose port
+EXPOSE 9000
+
+# The model will be loaded by Seldon Core
+CMD ["python", "-c", "from seldon_model import SentimentClassifier; import time; m = SentimentClassifier(); m.load(); print('Model loaded and ready'); time.sleep(999999)"]
