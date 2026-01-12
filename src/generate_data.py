@@ -46,6 +46,9 @@ class SentimentDataGenerator:
             "Absolutely satisfied with the {product}. Superb quality!",
             "Love everything about this {product}!",
             "This {product} is awesome! Can't stop using it.",
+            "This {product} is rad! Totally worth it!",
+            "The {product} is rad. Best purchase ever!",
+            "So rad! This {product} rocks!",
         ]
 
         self.negative_templates = [
@@ -64,6 +67,9 @@ class SentimentDataGenerator:
             "This {product} is junk. Waste of time and money.",
             "Really bad {product}. Doesn't work at all.",
             "Terrible quality {product}. Would return if I could.",
+            "This {product} is meh. Not worth the money.",
+            "The {product} is pretty meh. Very disappointing.",
+            "Meh, this {product} doesn't work well.",
         ]
 
         self.neutral_templates = [
