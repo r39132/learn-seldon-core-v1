@@ -58,23 +58,22 @@ You should see all checks passing ✅
 
 ### Step 5: Run the Application
 
-For local development (recommended):
+Start both the model server (port 8001) and UI (port 8000):
 ```bash
-make run-local
-```
-
-This starts both the model server (port 8001) and UI (port 8000).
-
-Alternatively, run them separately in different terminals:
-```bash
-# Terminal 1: Start model server
-make run-model-server
-
-# Terminal 2: Start UI
 make run
 ```
 
 Open your browser to: **http://localhost:8000**
+
+To stop the servers:
+```bash
+make stop
+```
+
+To restart after model changes:
+```bash
+make restart
+```
 
 ## 🎨 Using the Web Interface
 

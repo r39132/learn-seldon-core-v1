@@ -61,14 +61,13 @@ make test          # Run tests
 make test-cov      # Tests with coverage
 make lint          # Run linters
 make format        # Format code
-make run-local     # Run UI + model server (recommended for local dev)
-make run           # Run FastAPI UI only (needs model server)
-make run-model-server  # Run model server only
+make run           # Start both UI + model server
+make stop          # Stop all servers
+make restart       # Restart servers
 make notebook      # Start Jupyter notebook
 make docker-build  # Build Docker images
 make k8s-deploy    # Deploy to Kubernetes
 make k8s-clean     # Cleanup K8s resources
-make validate      # Validate project
 make clean         # Clean generated files
 ```
 
