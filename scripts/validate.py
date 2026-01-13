@@ -84,8 +84,8 @@ def validate_documentation() -> bool:
 
     docs = [
         ("README.md", "Main README"),
-        ("TOOLS_SETUP.md", "Tools setup guide"),
-        ("GETTING_STARTED.md", "Getting started guide"),
+        ("docs/TOOLS_SETUP.md", "Tools setup guide"),
+        ("docs/GETTING_STARTED.md", "Getting started guide"),
     ]
 
     results = [check_file_exists(doc, desc) for doc, desc in docs]
