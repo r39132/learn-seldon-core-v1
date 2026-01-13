@@ -2,10 +2,12 @@
 
 Welcome! This guide will help you get started with the Sentiment Analyzer project in just a few minutes.
 
+> **⚠️ Note**: This project uses a naive sentiment analysis model (Logistic Regression with TF-IDF) designed for educational purposes only. The focus is on demonstrating Seldon Core v1 deployment patterns, not production-grade NLP.
+
 ## 🎯 What You'll Build
 
 By following this guide, you'll have:
-- A trained sentiment analysis ML model
+- A trained sentiment analysis ML model (for learning purposes)
 - A beautiful web UI for sentiment analysis
 - Everything running either locally or on Kubernetes
 

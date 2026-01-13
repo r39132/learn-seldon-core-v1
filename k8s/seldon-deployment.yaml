@@ -12,7 +12,7 @@ spec:
     - spec:
         containers:
         - name: classifier
-          image: sentiment-classifier:latest
+          image: sentiment-seldon:latest
           imagePullPolicy: IfNotPresent
           env:
           - name: MODEL_PATH
@@ -20,20 +20,33 @@ spec:
           volumeMounts:
           - name: model-storage
             mountPath: /mnt/models
+            readOnly: true
           resources:
             requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
               memory: "512Mi"
               cpu: "500m"
-            limits:
-              memory: "1Gi"
-              cpu: "1000m"
         volumes:
         - name: model-storage
           hostPath:
-            path: /models
+            path: /tmp/models
             type: DirectoryOrCreate
     graph:
       name: classifier
       type: MODEL
       endpoint:
         type: REST
+      children: []
+      parameters:
+        - name: model_name
+          type: STRING
+          value: sentiment-classifier
+    engineResources:
+      requests:
+        memory: "128Mi"
+        cpu: "100m"
+      limits:
+        memory: "256Mi"
+        cpu: "200m"

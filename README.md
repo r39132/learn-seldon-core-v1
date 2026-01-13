@@ -1,14 +1,20 @@
-# Sentiment Analyzer with Seldon Core
+# Sentiment Analyzer with Seldon Core v1
 
-A production-ready ML project demonstrating three-class sentiment analysis (Positive/Neutral/Negative) with model training, deployment, and serving using Seldon Core on Kubernetes.
+A production-ready ML project demonstrating three-class sentiment analysis (Positive/Neutral/Negative) with model training, deployment, and serving using **Seldon Core v1** on Kubernetes.
+
+> **Note**: This project uses Seldon Core v1 (v1.17.1) which uses the `machinelearning.seldon.io/v1` API.
+
+> **⚠️ Educational Purpose**: The sentiment analysis model is intentionally naive (Logistic Regression with TF-IDF) and designed for illustration purposes only. This project focuses on demonstrating Seldon Core v1 concepts and ML deployment patterns, not state-of-the-art NLP.
 
 > **📸 [View Screenshots](screenshots/)** - See the UI in action
 
 ## 🎯 Features
 
 - **Three-class sentiment** classification with confidence scores
-- **Seldon Core** model serving on Kubernetes
-- **FastAPI** web UI with beautiful interface
+- **Two deployment modes**:
+  - **Seldon Core v1**: Production-grade model serving with SeldonDeployment CRD
+  - **FastAPI**: Simplified standalone deployment for learning
+- **Complete Seldon v1 integration**: Python wrapper, CRDs, and inference graphs
 - **Modern Python tooling** (pyenv, jenv, direnv, uv)
 - **Best practices** (linting, testing, type checking, pre-commit hooks)
 - **Complete documentation** and Jupyter notebooks
@@ -30,20 +36,36 @@ A production-ready ML project demonstrating three-class sentiment analysis (Posi
 |-------|-------------|
 | [TOOLS_SETUP.md](TOOLS_SETUP.md) | Install pyenv, jenv, direnv, uv, gh |
 | [GETTING_STARTED.md](GETTING_STARTED.md) | Step-by-step tutorial |
-| [DEPLOYMENT.md](DEPLOYMENT.md) | Kubernetes deployment |
+| [DEPLOYMENT.md](DEPLOYMENT.md) | Kubernetes deployment (FastAPI version) |
+| [SELDON_DEPLOYMENT.md](SELDON_DEPLOYMENT.md) | **Seldon Core v1 deployment guide** |
 | [QUICKREF.md](QUICKREF.md) | Quick command reference |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | System architecture |
+| [blog.md](blog.md) | Deep dive into Seldon Core v1 |
 
 ## 🏗️ Architecture
 
+**Two Deployment Options:**
+
+### Option 1: Seldon Core v1 (Production)
 ```
-User Browser → FastAPI UI (8000) → Seldon Core (9000) → Scikit-Learn Model
+REST API → Seldon Service Orchestrator → Model Container → SentimentClassifier
+```
+
+**Components:**
+- **Seldon Operator** - Manages SeldonDeployment lifecycle
+- **Service Orchestrator** - Request routing and graph execution
+- **Model Container** - Custom Python wrapper with scikit-learn model
+- **Scikit-Learn** - Logistic Regression + TF-IDF (3 classes, 5000 features, 1-5 n-grams)
+
+### Option 2: FastAPI (Learning/Development)
+```
+User Browser → FastAPI UI (8000) → Model Server (8001) → Scikit-Learn Model
 ```
 
 **Components:**
 - **FastAPI UI** - Web interface for text input
-- **Seldon Core** - Model serving platform
-- **Scikit-Learn** - Logistic Regression + TF-IDF (3 classes, 5000 features, 1-5 n-grams)
+- **Model Server** - Simple FastAPI endpoint
+- **Scikit-Learn** - Same model as Seldon deployment
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed design.
 
@@ -52,37 +74,56 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed design.
 ## 🛠️ Available Commands
 
 ```bash
-make help          # Show all commands
-make setup         # Initial setup
-make install       # Install dependencies
-make data          # Generate training data
-make train         # Train model
-make test          # Run tests
-make test-cov      # Tests with coverage
-make lint          # Run linters
-make format        # Format code
-make run           # Start both UI + model server
-make stop          # Stop all servers
-make restart       # Restart servers
-make notebook      # Start Jupyter notebook
-make docker-build  # Build Docker images
-make k8s-deploy    # Deploy to Kubernetes
-make k8s-clean     # Cleanup K8s resources
-make clean         # Clean generated files
+make help                # Show all commands
+make setup               # Initial setup
+make install             # Install dependencies
+make data                # Generate training data
+make train               # Train model
+make test                # Run tests
+make test-cov            # Tests with coverage
+make lint                # Run linters
+make format              # Format code
+make run                 # Start FastAPI UI + model server (non-Seldon)
+make stop                # Stop all servers
+make restart             # Restart servers
+make notebook            # Start Jupyter notebook
+make docker-build        # Build all Docker images
+make docker-build-seldon # Build only Seldon model image
+make k8s-deploy          # Deploy FastAPI version to K8s
+make k8s-deploy-seldon   # Deploy Seldon Core version to K8s
+make k8s-clean           # Cleanup K8s resources
+make clean               # Clean generated files
 ```
 
 ## 📁 Project Structure
 
 ```
 learn-seldon/
-├── src/           # Source code (app.py, train_model.py, generate_data.py, etc.)
-├── tests/         # Unit tests with pytest
-├── notebooks/     # Jupyter notebooks for exploration
-├── k8s/           # Kubernetes manifests
-├── scripts/       # Utility scripts (setup.sh, deploy-k8s.sh)
-├── data/          # Training data (raw/processed)
-├── models/        # Trained models (.pkl files)
-└── Makefile       # Task automation - run `make help`
+├── src/              # Source code
+│   ├── app.py              # FastAPI UI application
+│   ├── model_server.py     # FastAPI model server (non-Seldon)
+│   ├── seldon_model.py     # Seldon Core v1 Python wrapper
+│   ├── train_model.py      # Model training script
+│   └── generate_data.py    # Data generation
+├── tests/            # Unit tests with pytest
+├── notebooks/        # Jupyter notebooks for exploration
+├── k8s/              # Kubernetes manifests
+│   ├── namespace.yaml               # Namespace definition
+│   ├── seldon-deployment.yaml       # SeldonDeployment CRD (Seldon Core v1)
+│   ├── model-server-deployment.yaml # FastAPI deployment (non-Seldon)
+│   └── fastapi-deployment.yaml      # FastAPI UI deployment
+├── scripts/          # Utility scripts
+│   ├── deploy-seldon.sh   # Deploy with Seldon Core
+│   ├── deploy-k8s.sh      # Deploy FastAPI version
+│   ├── test-seldon.sh     # Test Seldon deployment
+│   └── setup.sh           # Initial setup
+├── .s2i/             # Seldon s2i configuration
+├── data/             # Training data (raw/processed)
+├── models/           # Trained models (.pkl files)
+├── Dockerfile.seldon      # Seldon model container
+├── Dockerfile.modelserver # FastAPI model server
+├── Dockerfile.fastapi     # FastAPI UI
+└── Makefile          # Task automation - run `make help`
 ```
 
 ## 🧪 Development

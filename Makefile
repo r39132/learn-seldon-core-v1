@@ -53,12 +53,21 @@ restart: stop run ## Restart servers
 
 docker-build: ## Build Docker images
 	@echo "🐳 Building Docker images..."
-	@docker build -t sentiment-classifier:latest -f Dockerfile.seldon .
+	@docker build -t sentiment-seldon:latest -f Dockerfile.seldon .
+	@docker build -t sentiment-model-server:latest -f Dockerfile.modelserver .
 	@docker build -t sentiment-ui:latest -f Dockerfile.fastapi .
 
-k8s-deploy: ## Deploy to Kubernetes
+docker-build-seldon: ## Build only Seldon model image
+	@echo "🐳 Building Seldon model image..."
+	@docker build -t sentiment-seldon:latest -f Dockerfile.seldon .
+
+k8s-deploy: ## Deploy to Kubernetes (non-Seldon FastAPI version)
 	@echo "☸️  Deploying to Kubernetes..."
 	@./scripts/deploy-k8s.sh
+
+k8s-deploy-seldon: ## Deploy to Kubernetes with Seldon Core
+	@echo "☸️  Deploying to Kubernetes with Seldon Core..."
+	@./scripts/deploy-seldon.sh
 
 k8s-clean: ## Clean up Kubernetes resources
 	@echo "🧹 Cleaning up Kubernetes..."
