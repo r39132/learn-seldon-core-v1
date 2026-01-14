@@ -141,20 +141,22 @@ make stop-ui                   # Stop UI server
 
 ### Model Serving Flow
 
-```
-User Browser
-    ↓
-FastAPI UI (localhost:8000)
-    ↓
-Seldon Core API (localhost:8080)
-    ↓
-SeldonDeployment (Kubernetes)
-    ↓
-Model Container (sentiment-seldon)
-    ↓
-SentimentClassifier Wrapper
-    ↓
-Scikit-learn Model (Logistic Regression + TF-IDF)
+```mermaid
+flowchart TD
+    Browser["User Browser"]
+    FastAPI["FastAPI UI<br/>localhost:8000"]
+    SeldonAPI["Seldon Core API<br/>localhost:8080"]
+    SeldonDeploy["SeldonDeployment<br/>Kubernetes"]
+    ModelContainer["Model Container<br/>sentiment-seldon"]
+    Wrapper["SentimentClassifier<br/>Wrapper"]
+    Model["Scikit-learn Model<br/>Logistic Regression + TF-IDF"]
+
+    Browser --> FastAPI
+    FastAPI --> SeldonAPI
+    SeldonAPI --> SeldonDeploy
+    SeldonDeploy --> ModelContainer
+    ModelContainer --> Wrapper
+    Wrapper --> Model
 ```
 
 **Key Components:**
