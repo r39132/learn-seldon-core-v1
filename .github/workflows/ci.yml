@@ -101,13 +101,3 @@ jobs:
         tags: sentiment-classifier:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
-
-    - name: Build FastAPI image
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        file: ./Dockerfile.fastapi
-        push: false
-        tags: sentiment-ui:latest
-        cache-from: type=gha
-        cache-to: type=gha,mode=max

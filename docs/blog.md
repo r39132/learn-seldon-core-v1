@@ -394,16 +394,13 @@ kubectl get pods -n seldon-demo
 |------|---------|
 | `src/train_model.py` | Train scikit-learn model |
 | `src/seldon_model.py` | Seldon v1 Python wrapper implementation |
-| `src/model_server.py` | Simple FastAPI server (baseline without Seldon) |
+| `src/app.py` | FastAPI web UI for interacting with deployed model |
 | `k8s/namespace.yaml` | Kubernetes namespace |
-| `k8s/model-server-deployment.yaml` | Deploy model server |
-| `k8s/fastapi-deployment.yaml` | Deploy web UI |
 | `k8s/seldon-deployment.yaml` | SeldonDeployment CRD manifest |
 | `.s2i/environment` | s2i build configuration |
+| `Dockerfile.seldon` | Docker image for Seldon Core deployment |
 
-The project shows **two deployment paths**:
-1. **Simplified** – FastAPI model server (no Seldon, for learning)
-2. **Production** – Seldon Core v1 with SeldonDeployment CRD (see `k8s/seldon-deployment.yaml`)
+The project demonstrates **production-grade deployment** with Seldon Core v1 using SeldonDeployment CRD (see `k8s/seldon-deployment.yaml`).
 
 ---
 

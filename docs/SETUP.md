@@ -171,8 +171,8 @@ The `.envrc` file automatically sets these variables when you enter the project 
 ```bash
 PROJECT_NAME="sentiment-analyzer"
 LOG_LEVEL="INFO"
-MODEL_SERVER_HOST="localhost"
-MODEL_SERVER_PORT="8001"
+SELDON_HOST="localhost"
+SELDON_PORT="8080"
 # ... and more
 ```
 
