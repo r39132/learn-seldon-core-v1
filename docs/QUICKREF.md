@@ -17,13 +17,9 @@ make restart                 # Restart servers
 make notebook                # Start Jupyter notebook
 ```
 
-### Testing & Quality
+### Code Quality
 ```bash
-make test                    # Run tests
-make test-cov                # Run tests with coverage
-make lint                    # Run linting
-make format                  # Format code
-make pre-commit              # Run all pre-commit hooks
+make precommit               # Run all code quality checks
 ```
 
 ### Docker & Kubernetes

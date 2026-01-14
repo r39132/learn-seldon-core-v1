@@ -25,8 +25,8 @@ make lint
 # Run tests
 make test-cov
 
-# Run pre-commit hooks
-make pre-commit
+# Run code quality checks
+make precommit
 ```
 
 ### Commit Messages

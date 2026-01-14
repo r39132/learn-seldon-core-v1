@@ -1,4 +1,4 @@
-.PHONY: help setup install test lint format clean run train data docker-build k8s-deploy k8s-clean stop restart validate-setup
+.PHONY: help setup install test lint format clean run train data docker-build k8s-deploy k8s-clean stop restart validate-setup precommit
 
 help: ## Show this help message
 	@echo 'Usage: make [target]'
@@ -15,23 +15,30 @@ install: ## Install dependencies
 	@echo "📦 Installing dependencies..."
 	@uv pip install -e ".[dev]"
 
-test: ## Run tests
+test:
 	@echo "🧪 Running tests..."
 	@pytest
 
-test-cov: ## Run tests with coverage
+test-cov:
 	@echo "🧪 Running tests with coverage..."
 	@pytest --cov=src --cov-report=html --cov-report=term
 
-lint: ## Run linting
+lint:
 	@echo "🔍 Running linters..."
 	@ruff check src/ tests/
 	@mypy src/
 
-format: ## Format code
+format:
 	@echo "✨ Formatting code..."
 	@black src/ tests/
 	@ruff check --fix src/ tests/
+
+precommit: ## Run code quality checks (format, lint, test)
+	@echo "🔧 Running code quality checks..."
+	@$(MAKE) format
+	@$(MAKE) lint
+	@$(MAKE) test
+	@echo "✅ All quality checks passed!"
 
 data: ## Generate training data
 	@echo "📊 Generating training data..."
@@ -115,20 +122,6 @@ notebook: ## Start Jupyter notebook
 jupyter: ## Start Jupyter lab
 	@echo "📓 Starting Jupyter lab..."
 	@jupyter lab
-
-pre-commit: ## Run pre-commit hooks
-	@echo "🔧 Running pre-commit hooks..."
-	@pre-commit run --all-files
-
-pre-push: ## Run pre-push hooks
-	@echo "🚀 Running pre-push hooks..."
-	@pre-commit run --hook-stage pre-push --all-files
-
-pre-commit-install: ## Install pre-commit hooks
-	@echo "📦 Installing pre-commit hooks..."
-	@pre-commit install
-	@pre-commit install --hook-type pre-push
-	@echo "✅ Pre-commit and pre-push hooks installed"
 
 validate: ## Validate project configuration and data
 	@echo "✅ Running project validation..."

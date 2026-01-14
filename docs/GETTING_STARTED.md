@@ -1,10 +1,8 @@
 # Getting Started with Sentiment Analyzer
 
-Welcome! This guide will help you get started with the Sentiment Analyzer project in just a few minutes.
+Welcome! This guide will help you start using the Sentiment Analyzer project.
 
-> **⚠️ Note**: This project uses a naive sentiment analysis model (Logistic Regression with TF-IDF) designed for educational purposes only. The focus is on demonstrating Seldon Core v1 deployment patterns, not production-grade NLP.
-
-## 🎯 What You'll Build
+## Prerequisites
 
 By following this guide, you'll have:
 - A trained sentiment analysis ML model (for learning purposes)
@@ -140,53 +138,61 @@ make install       # Update dependencies
 make train         # Retrain model
 make clean         # Clean cache files
 make k8s-clean     # Clean K8s resources
-make docker-build  # Build Docker images
+make precommit     # Run code quality checks
 make validate      # Verify project setup
 ```
 
 ## ❓ Troubleshooting
 
+**Setup issues:** See [TROUBLESHOOTING_SETUP.md](TROUBLESHOOTING_SETUP.md) for common setup problems.
+
+**Runtime issues:**
+
 ```bash
 make validate      # Check project setup
 make train         # Fix "Model not found"
-make setup         # Reinstall dependencies
+make install       # Reinstall dependencies
 ```
 
-**Port conflicts:** Check with `lsof -i :8000`
+**Port conflicts:** Check with `lsof -i :8000` or `lsof -i :8001`
 
 See [QUICKREF.md](QUICKREF.md) and [DEPLOYMENT.md](DEPLOYMENT.md) for more troubleshooting.
 
 ## 📖 Documentation
 
-- **README.md** - Comprehensive project documentation
-- **QUICKREF.md** - Quick reference for commands
-- **PROJECT_SUMMARY.md** - Project overview
-- **CONTRIBUTING.md** - How to contribute
+- [TOOLS_SETUP.md](TOOLS_SETUP.md) - Development environment setup
+- [TROUBLESHOOTING_SETUP.md](TROUBLESHOOTING_SETUP.md) - Setup troubleshooting
+- [README.md](../README.md) - Comprehensive project documentation
+- [QUICKREF.md](QUICKREF.md) - Quick reference for commands
+- [DEPLOYMENT.md](DEPLOYMENT.md) - Deployment guides
 
 ## 💡 Tips
 
 ```bash
 make help          # See all available commands
-make test          # Run before committing
+make test          # Run tests
+make precommit     # Run all code quality checks
 make notebook      # Best way to learn the ML pipeline
 ```
 
-**direnv:** Automatically loads environment when you `cd` into the project
-**Pre-commit hooks:** Run automatically on `git commit` (setup.sh installs them)
+**Environment:** Make sure `direnv` loads environment variables automatically when you `cd` into the project
+
+**Pre-commit hooks:** Run automatically on `git commit` to ensure code quality
 
 ## 🎓 Learning Path
 
 **Beginner:**
-1. `make setup && make run`
+1. Run the application (`make run`)
 2. Try the web interface
-3. `make notebook` - Explore Jupyter notebooks
-4. Edit `src/generate_data.py` - Modify training data
+3. Explore Jupyter notebooks (`make notebook`)
+4. Edit `src/generate_data.py` to modify training data
+5. Retrain the model (`make train`)
 
 **Intermediate:**
 1. Customize model in `src/train_model.py`
 2. Enhance UI in `src/templates/index.html`
 3. Add tests in `tests/`
-4. `make k8s-deploy` - Deploy to Kubernetes
+4. Deploy to Kubernetes (`make k8s-deploy`)
 
 **Advanced:**
 1. Integrate real datasets
@@ -196,10 +202,11 @@ make notebook      # Best way to learn the ML pipeline
 
 ## 🆘 Getting Help
 
-1. Check the **Troubleshooting** section in README.md
-2. Review **QUICKREF.md** for quick answers
-3. Look at existing tests for examples
-4. Open an issue on GitHub
+1. **Setup issues:** See [TROUBLESHOOTING_SETUP.md](TROUBLESHOOTING_SETUP.md)
+2. **Quick reference:** Check [QUICKREF.md](QUICKREF.md)
+3. **Examples:** Look at existing tests in `tests/`
+4. **Deployment help:** See [DEPLOYMENT.md](DEPLOYMENT.md)
+5. **Open an issue:** If you're still stuck, open an issue on GitHub
 
 ## 🎉 Success!
 
