@@ -1,6 +1,6 @@
 """
 FastAPI application for sentiment analysis UI.
-This app provides a web interface and calls the Seldon inference server.
+This app provides a web interface and calls the Seldon Core v1 inference API.
 """
 
 import logging
@@ -22,19 +22,21 @@ logger = logging.getLogger(__name__)
 # Initialize FastAPI app
 app = FastAPI(
     title="Sentiment Analyzer",
-    description="Sentiment analysis using Seldon Core",
+    description="Sentiment analysis using Seldon Core v1",
     version=os.getenv("APP_VERSION", "0.1.0"),
 )
 
 # Set up templates
 templates = Jinja2Templates(directory="src/templates")
 
-# Model server configuration
-MODEL_SERVER_HOST = os.getenv("MODEL_SERVER_HOST", "localhost")
-MODEL_SERVER_PORT = os.getenv("MODEL_SERVER_PORT", "8001")
+# Seldon Core configuration
+SELDON_HOST = os.getenv("SELDON_HOST", "localhost")
+SELDON_PORT = os.getenv("SELDON_PORT", "8080")
+SELDON_DEPLOYMENT_NAME = os.getenv("SELDON_DEPLOYMENT_NAME", "sentiment-classifier")
+SELDON_NAMESPACE = os.getenv("SELDON_NAMESPACE", "seldon")
 
-# Construct model server URL
-MODEL_SERVER_URL = f"http://{MODEL_SERVER_HOST}:{MODEL_SERVER_PORT}/predict"
+# Construct Seldon API URL (Seldon Core v1 format)
+SELDON_API_URL = f"http://{SELDON_HOST}:{SELDON_PORT}/api/v1.0/predictions"
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -70,9 +72,9 @@ async def analyze_sentiment(request: Request, text: str = Form("")) -> HTMLRespo
         )
 
     try:
-        # Call model server
+        # Call Seldon Core API
         logger.info(f"Analyzing text: {text[:50]}...")
-        prediction = await call_model_server(text)
+        prediction = await call_seldon_api(text)
 
         logger.info(f"Prediction: {prediction}")
 
@@ -93,9 +95,9 @@ async def analyze_sentiment(request: Request, text: str = Form("")) -> HTMLRespo
         )
 
 
-async def call_model_server(text: str) -> dict[str, str]:
+async def call_seldon_api(text: str) -> dict[str, str]:
     """
-    Call the model server API.
+    Call the Seldon Core v1 API.
 
     Args:
         text: Text to analyze
@@ -106,31 +108,46 @@ async def call_model_server(text: str) -> dict[str, str]:
     Raises:
         HTTPException: If the API call fails
     """
-    # Prepare request payload
-    payload = {"text": text}
+    # Prepare Seldon Core v1 request payload
+    # Format: {"data": {"ndarray": [["text"]]}}
+    payload = {"data": {"ndarray": [[text]]}}
 
     try:
         async with httpx.AsyncClient(timeout=30.0) as client:
-            response = await client.post(MODEL_SERVER_URL, json=payload)
+            response = await client.post(SELDON_API_URL, json=payload)
             response.raise_for_status()
 
-            # Parse response
+            # Parse Seldon response
             result = response.json()
-            logger.debug(f"Model server response: {result}")
+            logger.debug(f"Seldon API response: {result}")
 
-            # Extract prediction
-            prediction = result.get("prediction")
-            probability = result.get("probability", 0.0)
+            # Extract prediction from Seldon Core v1 format
+            # Response: {"data": {"ndarray": [["positive", 0.95]]}}
+            # or {"names": [...], "ndarray": [[...]]}
+            data = result.get("data", {})
+            ndarray = data.get("ndarray", [])
 
-            return {"sentiment": prediction, "text": text, "confidence": probability}
+            if ndarray and len(ndarray) > 0:
+                prediction_data = ndarray[0]
+                if isinstance(prediction_data, list) and len(prediction_data) >= 2:
+                    sentiment = prediction_data[0]
+                    confidence = float(prediction_data[1])
+                else:
+                    sentiment = str(prediction_data[0]) if prediction_data else "unknown"
+                    confidence = 0.0
+            else:
+                sentiment = "unknown"
+                confidence = 0.0
+
+            return {"sentiment": sentiment, "text": text, "confidence": float(confidence)}
 
     except httpx.HTTPStatusError as e:
-        logger.error(f"Model server returned error: {e}")
+        logger.error(f"Seldon API returned error: {e}")
         raise HTTPException(status_code=e.response.status_code, detail=str(e)) from e
     except httpx.RequestError as e:
-        logger.error(f"Failed to connect to model server: {e}")
+        logger.error(f"Failed to connect to Seldon API: {e}")
         raise HTTPException(
-            status_code=503, detail=f"Cannot connect to model server: {str(e)}"
+            status_code=503, detail=f"Cannot connect to Seldon API at {SELDON_API_URL}: {str(e)}"
         ) from e
     except Exception as e:
         logger.error(f"Unexpected error: {e}")

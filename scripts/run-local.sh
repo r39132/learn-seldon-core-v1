@@ -1,9 +1,9 @@
 #!/bin/bash
-# Run locally without Kubernetes
+# Run locally - starts UI only (use Seldon Core for model serving)
 
 set -e
 
-echo "🚀 Running locally..."
+echo "🚀 Running Sentiment Analyzer UI..."
 
 # Activate virtual environment
 if [ ! -d ".venv" ]; then
@@ -19,26 +19,10 @@ if [ ! -f "models/sentiment_model.pkl" ]; then
     python src/train_model.py
 fi
 
-# Start model server in the background
-echo "🤖 Starting model server on port 8001..."
-MODEL_PATH=models/sentiment_model.pkl uvicorn src.model_server:app --host 0.0.0.0 --port 8001 &
-MODEL_SERVER_PID=$!
-
-# Wait for model server to be ready
-sleep 2
-
-# Start FastAPI UI in the background
+# Start FastAPI UI
 echo "🌐 Starting FastAPI UI on port 8000..."
-uvicorn src.app:app --host 0.0.0.0 --port 8000 &
-FASTAPI_PID=$!
-
 echo ""
-echo "✅ Both servers started!"
-echo "   Model Server: http://localhost:8001"
-echo "   UI: http://localhost:8000"
+echo "Note: For model serving, deploy to Seldon Core with:"
+echo "  make k8s-deploy-seldon"
 echo ""
-echo "Press Ctrl+C to stop both servers"
-
-# Wait for Ctrl+C
-trap "kill $MODEL_SERVER_PID $FASTAPI_PID; exit" INT
-wait
+uvicorn src.app:app --host 0.0.0.0 --port 8000 --reload

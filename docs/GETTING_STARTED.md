@@ -58,19 +58,40 @@ You should see all checks passing ✅
 
 ### Step 5: Run the Application
 
-Start both the model server (port 8001) and UI (port 8000):
+**Note:** The UI requires Seldon Core to be deployed for model serving.
+
+First, deploy to Kubernetes:
 ```bash
+# Deploy Seldon Core model
+make k8s-deploy-seldon
+
+# Set up port forwarding for Seldon API
+kubectl port-forward svc/sentiment-classifier-default -n seldon 8080:8000
+```
+
+Then start the UI in a new terminal:
+
+```bash
+# Make sure you're in the project directory with venv activated
+cd learn-seldon-core-v1
+source .venv/bin/activate
+
+# Set Seldon endpoint
+export SELDON_HOST=localhost
+export SELDON_PORT=8080
+
+# Start the UI
 make run
 ```
 
 Open your browser to: **http://localhost:8000**
 
-To stop the servers:
+To stop the UI:
 ```bash
 make stop
 ```
 
-To restart after model changes:
+To restart after changes:
 ```bash
 make restart
 ```

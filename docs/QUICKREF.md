@@ -11,9 +11,9 @@ make setup                   # Run complete setup
 ```bash
 make data                    # Generate training data
 make train                   # Train model
-make run                     # Start both UI + model server
-make stop                    # Stop all servers
-make restart                 # Restart servers
+make run                     # Start UI (requires Seldon deployed)
+make stop                    # Stop UI server
+make restart                 # Restart UI server
 make notebook                # Start Jupyter notebook
 ```
 
@@ -38,20 +38,19 @@ make k8s-clean               # Clean up resources
 | `.env` | Environment variables |
 | `pyproject.toml` | Dependencies and config |
 | `src/app.py` | FastAPI UI application |
-| `src/model_server.py` | FastAPI model server (non-Seldon) |
 | `src/seldon_model.py` | Seldon Core v1 Python wrapper |
 | `src/train_model.py` | Model training |
 | `models/sentiment_model.pkl` | Trained model |
 | `k8s/seldon-deployment.yaml` | Seldon Core v1 deployment |
-| `k8s/model-server-deployment.yaml` | FastAPI deployment |
 | `.s2i/environment` | Seldon s2i configuration |
 
 
 ## 🐛 Quick Troubleshooting
 
-### Port already in use
+### UI cannot connect to Seldon
 ```bash
-make stop                  # Stop all servers
+kubectl port-forward svc/sentiment-classifier-default -n seldon 8080:8000
+# Then set SELDON_HOST=localhost and SELDON_PORT=8080
 ```
 
 ### Model not found
@@ -65,21 +64,6 @@ minikube start
 ```
 
 ## 📊 Kubernetes Commands
-
-### FastAPI Deployment
-```bash
-# View resources
-kubectl get all -n seldon
-
-# Stream logs
-kubectl logs -f deployment/sentiment-ui -n seldon
-
-# Access UI
-minikube service sentiment-ui -n seldon
-
-# Restart deployment
-kubectl rollout restart deployment/sentiment-model-server -n seldon
-```
 
 ### Seldon Core v1 Deployment
 ```bash
@@ -106,4 +90,4 @@ kubectl logs -f -l seldon-deployment-id=sentiment-classifier -c seldon-container
 
 ---
 
-**See [DEPLOYMENT.md](DEPLOYMENT.md) for FastAPI deployment and [SELDON_DEPLOYMENT.md](SELDON_DEPLOYMENT.md) for Seldon Core v1**
+**See [SELDON_DEPLOYMENT.md](SELDON_DEPLOYMENT.md) for Seldon Core v1 deployment details**

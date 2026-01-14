@@ -48,23 +48,22 @@ train: ## Train model
 	@echo "🤖 Training model..."
 	@python src/train_model.py
 
-run: ## Start both UI and model server
+run: ## Start UI (requires Seldon Core deployed)
 	@./scripts/run-local.sh
 
-stop: ## Stop all local servers
-	@echo "🛑 Stopping servers..."
-	@lsof -ti:8000,8001 | xargs kill -9 2>/dev/null || true
-	@echo "✅ Servers stopped"
+stop: ## Stop UI server
+	@echo "🛑 Stopping UI server..."
+	@lsof -ti:8000 | xargs kill -9 2>/dev/null || true
+	@echo "✅ UI server stopped"
 
-restart: stop run ## Restart servers
+restart: stop run ## Restart UI server
 
-docker-build: ## Build Docker images
+docker-build: ## Build Docker images for Seldon deployment
 	@echo "🐳 Building Docker images..."
 	@docker build -t sentiment-seldon:latest -f Dockerfile.seldon .
-	@docker build -t sentiment-model-server:latest -f Dockerfile.modelserver .
 	@docker build -t sentiment-ui:latest -f Dockerfile.fastapi .
 
-docker-build-seldon: ## Build only Seldon model image
+docker-build-seldon: ## Build Seldon model image
 	@echo "🐳 Building Seldon model image..."
 	@docker build -t sentiment-seldon:latest -f Dockerfile.seldon .
 
