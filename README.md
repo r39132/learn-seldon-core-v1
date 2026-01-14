@@ -142,6 +142,7 @@ make stop-ui                   # Stop UI server
 ### Model Serving Flow
 
 ```mermaid
+%%{init: {'theme':'neutral'}}%%
 flowchart TD
     Browser["User Browser"]
     FastAPI["FastAPI UI<br/>localhost:8000"]

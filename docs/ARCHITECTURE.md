@@ -17,6 +17,7 @@
 ### High-Level Architecture
 
 ```mermaid
+%%{init: {'theme':'neutral'}}%%
 graph TB
     subgraph UI["User Interface"]
         Browser["Web Browser<br/>HTML/CSS/JS Frontend<br/>- Text Input Area<br/>- Submit Button<br/>- Sentiment Result Display"]
@@ -55,6 +56,7 @@ graph TB
 ### Local Development
 
 ```mermaid
+%%{init: {'theme':'neutral'}}%%
 graph TB
     subgraph DevMachine["Developer Machine - macOS"]
         subgraph VirtualEnv[".venv Virtual Environment"]
@@ -71,6 +73,7 @@ graph TB
 ### Kubernetes Deployment (Minikube)
 
 ```mermaid
+%%{init: {'theme':'neutral'}}%%
 graph TB
     subgraph MinikubeCluster["Minikube Cluster"]
         subgraph SeldonNS["Namespace: seldon"]
@@ -105,6 +108,7 @@ graph TB
 ### Training Pipeline
 
 ```mermaid
+%%{init: {'theme':'neutral'}}%%
 flowchart TD
     GenScript["Data Generation Script<br/>python src/generate_data.py"]
     RawData["Raw Data<br/>data/raw/<br/>- sentiment_data.csv<br/>- sentiment_data.json"]
@@ -119,6 +123,7 @@ flowchart TD
 ### Inference Pipeline
 
 ```mermaid
+%%{init: {'theme':'neutral'}}%%
 flowchart TD
     UserInput["User Input<br/>'Text...'"]
     FastAPIEndpoint["FastAPI Endpoint<br/>POST /analyze<br/><br/>1. Receive text<br/>2. Format request<br/>3. Call Seldon API"]
