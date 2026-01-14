@@ -176,7 +176,7 @@ sequenceDiagram
 
 ### FastAPI Application (Local Only)
 
-**File:** `src/app.py`
+**File:** `src/sentiment_app_server.py`
 
 **Runs:** Locally via `make run-ui` (port 8000)
 

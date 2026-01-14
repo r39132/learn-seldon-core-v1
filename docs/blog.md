@@ -394,7 +394,7 @@ kubectl get pods -n seldon-demo
 |------|---------|
 | `src/train_model.py` | Train scikit-learn model |
 | `src/seldon_model.py` | Seldon v1 Python wrapper implementation |
-| `src/app.py` | FastAPI web UI for interacting with deployed model |
+| `src/sentiment_app_server.py` | FastAPI web UI for interacting with deployed model |
 | `k8s/namespace.yaml` | Kubernetes namespace |
 | `k8s/seldon-deployment.yaml` | SeldonDeployment CRD manifest |
 | `.s2i/environment` | s2i build configuration |

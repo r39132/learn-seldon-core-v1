@@ -44,4 +44,4 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
-        args: [tests/, -v, --ignore=tests/test_app.py]
+        args: [tests/, -v, --ignore=tests/test_sentiment_app_server.py]

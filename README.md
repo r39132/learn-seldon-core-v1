@@ -65,7 +65,7 @@ Refer [QUICKSTART.md](docs/QUICKSTART.md)
 ```
 learn-seldon-core-v1/
 ├── src/
-│   ├── app.py                  # FastAPI UI application
+│   ├── sentiment_app_server.py # FastAPI UI application
 │   ├── seldon_model.py         # Seldon Core v1 wrapper
 │   ├── train_model.py          # Model training script
 │   └── generate_data.py        # Training data generator
@@ -85,7 +85,7 @@ learn-seldon-core-v1/
 |------|---------|
 | `.env` | Environment variables |
 | `pyproject.toml` | Dependencies and config |
-| `src/app.py` | FastAPI UI application |
+| `src/sentiment_app_server.py` | FastAPI UI application |
 | `src/seldon_model.py` | Seldon Core v1 Python wrapper |
 | `src/train_model.py` | Model training |
 | `models/sentiment_model.pkl` | Trained model |

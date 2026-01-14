@@ -11,7 +11,7 @@ from fastapi.testclient import TestClient
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from app import app
+from sentiment_app_server import app
 
 
 class TestFastAPIApp:

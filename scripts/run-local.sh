@@ -19,4 +19,4 @@ echo ""
 echo "Note: For model serving, deploy to Seldon Core with:"
 echo "  make k8s-deploy-seldon"
 echo ""
-uvicorn src.app:app --host 0.0.0.0 --port 8000 --reload
+uvicorn src.sentiment_app_server:app --host 0.0.0.0 --port 8000 --reload
