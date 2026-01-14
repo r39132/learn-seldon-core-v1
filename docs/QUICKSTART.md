@@ -11,7 +11,8 @@ Get up and running with the Sentiment Analyzer in minutes.
 - [Step 4: Test the Model Server](#step-4-test-the-model-server)
 - [Step 5: Run the UI](#step-5-run-the-ui)
 - [Step 6: View Logs and Monitor](#step-6-view-logs-and-monitor)
-- [Clean Up](#clean-up)
+- [Step 7: Clean Up](#step-7-clean-up)
+- [Command Reference](#command-reference)
 
 ## Prerequisites
 
@@ -215,4 +216,5 @@ minikube stop
 make clean-build-artifacts
 ```
 
+## Command Reference
 For a complete list of available commands, see [COMMANDS.md](COMMANDS.md).
