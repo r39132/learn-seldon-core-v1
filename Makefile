@@ -1,10 +1,10 @@
-.PHONY: help setup data train k8s-deploy-model-server k8s-ms-logs k8s-clean clean-build-artifacts notebook k8s-ms-status run-ui stop-ui
+.PHONY: help setup data train k8s-deploy-model-server k8s-ms-logs k8s-ms-port-fwd k8s-ms-test k8s-clean clean-build-artifacts notebook k8s-ms-status run-ui stop-ui
 
 help: ## Show this help message
 	@echo 'Usage: make [target]'
 	@echo ''
 	@echo 'Available targets:'
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
+	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 setup: ## Run initial setup
 	@echo "🚀 Running setup..."
@@ -46,6 +46,14 @@ k8s-ms-status: ## Show deployments, pods, services
 k8s-ms-logs: ## Stream pod logs from Seldon Core v1 model server
 	@echo "📝 Viewing model server logs..."
 	@kubectl logs -f -l seldon-deployment-id=sentiment-classifier -n seldon --tail=50
+
+k8s-ms-port-fwd: ## Port forward Seldon service to localhost:8080
+	@echo "🔌 Setting up port forwarding..."
+	@kubectl port-forward svc/sentiment-classifier-default -n seldon 8080:8000
+
+k8s-ms-test: ## Run tests against the model server
+	@echo "🧪 Testing model server..."
+	@./scripts/test-seldon.sh
 
 k8s-clean: ## Delete all Kubernetes resources
 	@echo "🧹 Cleaning up Kubernetes..."

@@ -91,14 +91,25 @@ You should see:
 
 ## Step 4: Test the Model Server
 
-Set up port forwarding to access the Seldon API:
+**Set up port forwarding to access the Seldon API:**
 
 ```bash
 # In a separate terminal
-kubectl port-forward svc/sentiment-classifier-default -n seldon 8080:8000
+make k8s-ms-port-fwd
 ```
 
-**Test with curl:**
+This forwards `localhost:8080` → Seldon service port `8000`.
+
+**Run automated tests:**
+
+```bash
+# In another terminal (with port-forward running)
+make k8s-ms-test
+```
+
+This runs multiple test cases (positive, negative, neutral, batch) against the model server.
+
+**Manual test with curl:**
 
 ```bash
 # Single prediction
@@ -194,6 +205,8 @@ make clean-build-artifacts     # Clean Python caches
 make k8s-deploy-model-server   # Deploy model to K8s
 make k8s-ms-status             # Check status
 make k8s-ms-logs               # Stream logs
+make k8s-ms-port-fwd           # Port forward service to localhost:8080
+make k8s-ms-test               # Run tests against model server
 make k8s-clean                 # Delete all K8s resources
 ```
 

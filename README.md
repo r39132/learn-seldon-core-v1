@@ -64,8 +64,10 @@ make train
 # Deploy to Kubernetes
 make k8s-deploy-model-server
 
-# Start UI (in separate terminal)
-kubectl port-forward svc/sentiment-classifier-default -n seldon 8080:8000
+# Port forward Seldon service (in separate terminal)
+make k8s-ms-port-fwd
+
+# Start UI (in another terminal)
 make run-ui
 ```
 
@@ -106,6 +108,8 @@ make clean-build-artifacts     # Clean caches
 ```bash
 make k8s-deploy-model-server   # Deploy model server
 make k8s-ms-status             # Check deployment status
+make k8s-ms-port-fwd           # Port forward service (terminal 1)
+make k8s-ms-test               # Test model server (terminal 2)
 make k8s-ms-logs               # Stream logs
 make k8s-clean                 # Delete all resources
 ```

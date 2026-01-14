@@ -21,6 +21,8 @@ make notebook                # Start Jupyter notebook
 make k8s-deploy-model-server # Deploy model to K8s with Seldon Core v1
 make k8s-ms-status           # Show deployments, pods, services
 make k8s-ms-logs             # Stream pod logs from model server
+make k8s-ms-port-fwd         # Port forward Seldon service to localhost:8080
+make k8s-ms-test             # Run tests against the model server
 make k8s-clean               # Delete all K8s resources
 ```
 
