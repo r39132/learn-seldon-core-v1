@@ -45,7 +45,7 @@ This creates `models/sentiment_model.pkl`.
 ### 2. Deploy to Kubernetes with Seldon
 
 ```bash
-make k8s-deploy-seldon
+make k8s-deploy-model-server
 ```
 
 This script will:
@@ -59,7 +59,7 @@ This script will:
 ### 3. Check Deployment Status
 
 ```bash
-make k8s-seldon-status
+make k8s-ms-status
 ```
 
 This shows:

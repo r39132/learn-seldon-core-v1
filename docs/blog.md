@@ -439,7 +439,7 @@ make setup
 make data && make train
 
 # Run locally (no Kubernetes needed)
-make run
+make run-ui
 
 # Deploy to Kubernetes (with minikube)
 make k8s-deploy

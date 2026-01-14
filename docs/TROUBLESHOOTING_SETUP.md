@@ -304,10 +304,10 @@ python src/train_model.py
 If you encounter an issue not covered here:
 
 1. **Check the logs** - Most tools provide verbose output with `-v` or `--verbose`
-2. **Verify versions** - Run `make validate-setup` to check tool versions
+2. **Verify versions** - Check tool versions match requirements
 3. **Check PATH** - Ensure tools are in your PATH: `echo $PATH`
 4. **Review documentation** - See [TOOLS_SETUP.md](TOOLS_SETUP.md) for installation steps
-5. **Clean and retry** - Try `make clean` then `make setup`
+5. **Clean and retry** - Try `make clean-build-artifacts` then `make setup`
 
 ## Additional Resources
 

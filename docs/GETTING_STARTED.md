@@ -63,7 +63,7 @@ You should see all checks passing ✅
 First, deploy to Kubernetes:
 ```bash
 # Deploy Seldon Core model
-make k8s-deploy-seldon
+make k8s-deploy-model-server
 
 # Set up port forwarding for Seldon API
 kubectl port-forward svc/sentiment-classifier-default -n seldon 8080:8000
@@ -88,7 +88,7 @@ Open your browser to: **http://localhost:8000**
 
 To stop the UI:
 ```bash
-make stop
+make stop-ui
 ```
 
 To restart after changes:
@@ -108,16 +108,7 @@ Example texts to try:
 - **Neutral:** "The product works as expected. Nothing special."
 - **Negative:** "Terrible quality. Very disappointed."
 
-## 🚢 Deploy to Kubernetes (Optional)
-
-```bash
-# Deploy everything to minikube
-make k8s-deploy
-```
-
-See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed instructions.
-
-## 📚 Next Steps
+##  Next Steps
 
 Now that you have the basics working, explore:
 
@@ -125,8 +116,6 @@ Now that you have the basics working, explore:
 
 ```bash
 make notebook  # Start Jupyter notebook
-# or
-make jupyter   # Start Jupyter Lab
 ```
 
 Check out:
@@ -155,12 +144,9 @@ Key files:
 ## 🔧 Common Tasks
 
 ```bash
-make install       # Update dependencies
 make train         # Retrain model
-make clean         # Clean cache files
+make clean-build-artifacts  # Clean cache files
 make k8s-clean     # Clean K8s resources
-make precommit     # Run code quality checks
-make validate      # Verify project setup
 ```
 
 ## ❓ Troubleshooting
@@ -170,9 +156,7 @@ make validate      # Verify project setup
 **Runtime issues:**
 
 ```bash
-make validate      # Check project setup
 make train         # Fix "Model not found"
-make install       # Reinstall dependencies
 ```
 
 **Port conflicts:** Check with `lsof -i :8000` or `lsof -i :8001`
@@ -191,8 +175,6 @@ See [QUICKREF.md](QUICKREF.md) and [DEPLOYMENT.md](DEPLOYMENT.md) for more troub
 
 ```bash
 make help          # See all available commands
-make test          # Run tests
-make precommit     # Run all code quality checks
 make notebook      # Best way to learn the ML pipeline
 ```
 
@@ -203,7 +185,7 @@ make notebook      # Best way to learn the ML pipeline
 ## 🎓 Learning Path
 
 **Beginner:**
-1. Run the application (`make run`)
+1. Run the application (`make run-ui`)
 2. Try the web interface
 3. Explore Jupyter notebooks (`make notebook`)
 4. Edit `src/generate_data.py` to modify training data
@@ -213,7 +195,7 @@ make notebook      # Best way to learn the ML pipeline
 1. Customize model in `src/train_model.py`
 2. Enhance UI in `src/templates/index.html`
 3. Add tests in `tests/`
-4. Deploy to Kubernetes (`make k8s-deploy`)
+4. Deploy to Kubernetes with Seldon (`make k8s-deploy-model-server`)
 
 **Advanced:**
 1. Integrate real datasets

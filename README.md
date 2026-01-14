@@ -98,9 +98,9 @@ make notebook            # Start Jupyter notebook
 make docker-build        # Build all Docker images
 make docker-build-seldon # Build only Seldon model image
 make k8s-deploy          # Deploy FastAPI version to K8s
-make k8s-deploy-seldon   # Deploy Seldon Core version to K8s
-make k8s-clean           # Cleanup K8s resources
-make clean               # Clean generated files
+make k8s-deploy-model-server   # Deploy model server with Seldon Core v1
+make clean-k8s           # Cleanup K8s resources
+make clean-build-artifacts   # Clean generated files
 ```
 
 ## 📁 Project Structure
@@ -154,7 +154,7 @@ Pre-commit hooks run automatically on `git commit` to ensure code quality.
 ```bash
 make docker-build  # Build both images
 make k8s-deploy    # Deploy to Kubernetes
-make k8s-clean     # Cleanup resources
+make clean-k8s     # Cleanup resources
 ```
 
 See [DEPLOYMENT.md](docs/DEPLOYMENT.md) for detailed Kubernetes operations, troubleshooting, and advanced configurations.

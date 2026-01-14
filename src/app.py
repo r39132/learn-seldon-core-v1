@@ -5,6 +5,7 @@ This app provides a web interface and calls the Seldon Core v1 inference API.
 
 import logging
 import os
+from typing import Any
 
 import httpx
 from dotenv import load_dotenv
@@ -95,7 +96,7 @@ async def analyze_sentiment(request: Request, text: str = Form("")) -> HTMLRespo
         )
 
 
-async def call_seldon_api(text: str) -> dict[str, str]:
+async def call_seldon_api(text: str) -> dict[str, Any]:
     """
     Call the Seldon Core v1 API.
 
@@ -139,7 +140,7 @@ async def call_seldon_api(text: str) -> dict[str, str]:
                 sentiment = "unknown"
                 confidence = 0.0
 
-            return {"sentiment": sentiment, "text": text, "confidence": float(confidence)}
+            return {"sentiment": sentiment, "text": text, "confidence": confidence}
 
     except httpx.HTTPStatusError as e:
         logger.error(f"Seldon API returned error: {e}")

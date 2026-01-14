@@ -11,24 +11,22 @@ make setup                   # Run complete setup
 ```bash
 make data                    # Generate training data
 make train                   # Train model
-make run                     # Start UI (requires Seldon deployed)
-make stop                    # Stop UI server
-make restart                 # Restart UI server
+make run-ui                  # Start UI server locally
+make stop-ui                 # Stop UI server
 make notebook                # Start Jupyter notebook
 ```
 
-### Code Quality
+### Kubernetes
 ```bash
-make precommit               # Run all code quality checks
+make k8s-deploy-model-server # Deploy model to K8s with Seldon Core v1
+make k8s-ms-status           # Show deployments, pods, services
+make k8s-ms-logs             # Stream pod logs from model server
+make k8s-clean               # Delete all K8s resources
 ```
 
-### Docker & Kubernetes
+### Cleanup
 ```bash
-make docker-build            # Build all Docker images
-make docker-build-seldon     # Build only Seldon model image
-make k8s-deploy              # Deploy FastAPI version to K8s
-make k8s-deploy-seldon       # Deploy Seldon Core v1 to K8s
-make k8s-clean               # Clean up resources
+make clean-build-artifacts   # Clean Python build artifacts
 ```
 
 ## 📂 Important Files

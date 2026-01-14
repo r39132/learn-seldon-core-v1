@@ -13,12 +13,6 @@ fi
 
 source .venv/bin/activate
 
-# Check if model exists
-if [ ! -f "models/sentiment_model.pkl" ]; then
-    echo "⚠️  Model not found. Training model..."
-    python src/train_model.py
-fi
-
 # Start FastAPI UI
 echo "🌐 Starting FastAPI UI on port 8000..."
 echo ""

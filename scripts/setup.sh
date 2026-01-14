@@ -107,22 +107,17 @@ fi
 echo "🔧 Setting up pre-commit hooks..."
 pre-commit install
 
-# Generate training data
-echo "📊 Generating training data..."
-python src/generate_data.py
-
-# Train model
-echo "🤖 Training model..."
-python src/train_model.py
-
 echo "✅ Setup complete!"
 echo ""
 echo "${GREEN}Next steps:${NC}"
 echo "  1. If you installed new tools, restart your terminal and run 'direnv allow .'"
 echo "  2. Review and update .env file with your configuration"
 echo "  3. Activate virtual environment: 'source .venv/bin/activate'"
-echo "  4. Start FastAPI: 'make run' or 'uvicorn src.app:app --reload'"
-echo "  5. For Kubernetes deployment, see 'make k8s-deploy' or scripts/deploy-k8s.sh"
+echo "  4. Generate training data: 'make data'"
+echo "  5. Train the model: 'make train'"
+echo "  6. Verify project: 'make validate'"
+echo "  7. Start UI: 'make run' (requires Seldon Core deployed)"
+echo "  8. For Kubernetes deployment, see docs/SELDON_DEPLOYMENT.md"
 echo ""
 echo "${GREEN}📖 Documentation:${NC}"
 echo "  - Complete tools setup: TOOLS_SETUP.md"
