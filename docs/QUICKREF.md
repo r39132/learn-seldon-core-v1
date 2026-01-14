@@ -43,23 +43,14 @@ make clean-build-artifacts   # Clean Python build artifacts
 | `.s2i/environment` | Seldon s2i configuration |
 
 
-## 🐛 Quick Troubleshooting
+## 🐛 Troubleshooting
 
-### UI cannot connect to Seldon
-```bash
-kubectl port-forward svc/sentiment-classifier-default -n seldon 8080:8000
-# Then set SELDON_HOST=localhost and SELDON_PORT=8080
-```
+For detailed troubleshooting, see [TROUBLESHOOTING.md](TROUBLESHOOTING.md).
 
-### Model not found
-```bash
-make train                 # Retrain model
-```
-
-### Minikube not running
-```bash
-minikube start
-```
+**Quick fixes:**
+- UI cannot connect: [Setup port forwarding](TROUBLESHOOTING.md#ui-cannot-connect-to-seldon)
+- Model not found: `make train`
+- Minikube not running: `minikube start`
 
 ## 📊 Kubernetes Commands
 
@@ -88,4 +79,4 @@ kubectl logs -f -l seldon-deployment-id=sentiment-classifier -c seldon-container
 
 ---
 
-**See [SELDON_DEPLOYMENT.md](SELDON_DEPLOYMENT.md) for Seldon Core v1 deployment details**
+**See [QUICKSTART.md](QUICKSTART.md) for deployment details**

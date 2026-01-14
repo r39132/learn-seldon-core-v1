@@ -437,5 +437,5 @@ replicas: 3
 
 **For more details, see:**
 - README.md - General documentation
-- GETTING_STARTED.md - Setup guide
+- QUICKSTART.md - Getting started guide
 - PROJECT_SUMMARY.md - Project overview

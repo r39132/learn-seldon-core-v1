@@ -1,6 +1,6 @@
-# Development Tools Setup Guide
+# Setup Guide
 
-Complete guide for setting up all development tools used in this project.
+Complete guide for setting up your development environment for this project.
 
 ## Overview
 
@@ -194,7 +194,7 @@ make validate
 - Python environment compatibility
 - Training data quality and balance
 
-> **Having issues?** See [TROUBLESHOOTING_SETUP.md](TROUBLESHOOTING_SETUP.md) for common problems and solutions.
+> **Having issues?** See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for common problems and solutions.
 
 ## Best Practices
 
@@ -219,4 +219,4 @@ make validate
 
 ---
 
-For project-specific setup, see [GETTING_STARTED.md](GETTING_STARTED.md).
+For next steps after setup, see [QUICKSTART.md](QUICKSTART.md).
