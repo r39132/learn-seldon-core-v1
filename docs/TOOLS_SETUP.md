@@ -196,67 +196,6 @@ make validate
 
 > **Having issues?** See [TROUBLESHOOTING_SETUP.md](TROUBLESHOOTING_SETUP.md) for common problems and solutions.
 
-## Updating Tools
-
-Keep your tools up to date:
-
-```bash
-# Update Homebrew and packages
-brew update
-brew upgrade
-
-# Update Python packages
-uv pip install --upgrade pip
-uv pip install --upgrade -r requirements.txt
-
-# Update pre-commit hooks
-pre-commit autoupdate
-
-# Update minikube
-brew upgrade minikube
-```
-
-## IDE Integration
-
-### VS Code Extensions
-
-Recommended extensions for this project:
-
-```bash
-# Install via command line
-code --install-extension ms-python.python
-code --install-extension ms-python.vscode-pylance
-code --install-extension ms-azuretools.vscode-docker
-code --install-extension ms-kubernetes-tools.vscode-kubernetes-tools
-code --install-extension eamodio.gitlens
-code --install-extension GitHub.copilot
-```
-
-Or search in VS Code Extensions:
-- Python
-- Pylance
-- Docker
-- Kubernetes
-- GitLens
-- GitHub Copilot
-
-### VS Code Settings
-
-The project includes recommended settings in `.vscode/settings.json`:
-
-```json
-{
-  "python.defaultInterpreterPath": ".venv/bin/python",
-  "python.formatting.provider": "black",
-  "python.linting.enabled": true,
-  "python.linting.ruffEnabled": true,
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.organizeImports": true
-  }
-}
-```
-
 ## Best Practices
 
 1. **Always use virtual environments** - Never install packages globally
